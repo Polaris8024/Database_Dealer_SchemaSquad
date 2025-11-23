@@ -1,0 +1,7 @@
+CREATE TABLE [dbo].[Purchase_Order]
+(
+  [PO_Num] INT NOT NULL PRIMARY KEY,
+  [Cust_ID] INT NOT NULL FOREIGN KEY REFERENCES [dbo].[Customer](Cust_ID),
+  [VIN] INT NOT NULL FOREIGN KEY REFERENCES [dbo].[Vehicle](VIN),
+  [Emp_ID] INT NOT NULL FOREIGN KEY REFERENCES [dbo].[Employee](Emp_ID),
+);
