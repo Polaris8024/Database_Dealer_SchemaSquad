@@ -11,6 +11,7 @@
     <None Include=".vscode\tasks.json" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="SeedData" />
     <Folder Include="Tables" />
   </ItemGroup>
   <Target Name="BeforeBuild">
