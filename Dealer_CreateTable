@@ -1,0 +1,87 @@
+
+CREATE TABLE Location (
+    Location_ID      INTEGER      NOT NULL,
+    Location_Phone   VARCHAR(10)  NOT NULL,
+    Location_City    VARCHAR(35)  NOT NULL,
+    PRIMARY KEY (Location_ID)
+);
+
+CREATE TABLE Department (
+    Department_Code  INTEGER      NOT NULL,
+    Department_Name  VARCHAR(35)  NOT NULL,
+    EmpID             INTEGER     NOT NULL,
+    PRIMARY KEY (Department_Code),
+    FOREIGN KEY (EmpID)
+        REFERENCES Employee(EmpID)
+);
+
+CREATE TABLE Employee (
+    EmpID            INTEGER      NOT NULL,
+    Emp_FName        VARCHAR(35)  NOT NULL,
+    Emp_LName        VARCHAR(35)  NOT NULL,
+    Department_Code  INTEGER      NOT NULL,
+    Emp_Type         VARCHAR(35)  NOT NULL,
+    Emp_Salary       DECIMAL(8,2) NOT NULL,
+    PRIMARY KEY (EmpID),
+    FOREIGN KEY (Department_Code)
+        REFERENCES Department(Department_Code)
+);
+
+CREATE TABLE Vehicle (
+    VIN              INTEGER       NOT NULL,
+    Vehicle_Type     VARCHAR(35)   NOT NULL,
+    Vehicle_Color    VARCHAR(35)   NOT NULL,
+    Vehicle_Price    DECIMAL(8,2)  NOT NULL,
+    Location_ID      INTEGER       NOT NULL,
+    PRIMARY KEY (VIN),
+    FOREIGN KEY (Location_ID)
+        REFERENCES Location(Location_ID)
+);
+
+CREATE TABLE Repair_Order (
+    Repair_Num       INTEGER   NOT NULL,
+    VIN              INTEGER   NOT NULL,
+    EmpID            INTEGER   NOT NULL,
+    Repair_Date      DATE      NOT NULL,
+    PRIMARY KEY (Repair_Num),
+    FOREIGN KEY (VIN)  REFERENCES Vehicle(VIN),
+    FOREIGN KEY (EmpID) REFERENCES Employee(EmpID)
+);
+
+CREATE TABLE Part (
+    Part_Num         INTEGER      NOT NULL,
+    Part_Name        VARCHAR(35)  NOT NULL,
+    Part_Description VARCHAR(35)  NOT NULL,
+    Part_Cost        DECIMAL(8,2) NOT NULL,
+    PRIMARY KEY (Part_Num)
+);
+
+CREATE TABLE Repair_Parts (
+    Repair_Num       INTEGER      NOT NULL,
+    Part_Num         INTEGER      NOT NULL,
+    Quantity         INTEGER      NOT NULL,
+    Line_Cost        DECIMAL(8,2) NOT NULL,
+    PRIMARY KEY (Repair_Num, Part_Num),
+    FOREIGN KEY (Repair_Num) REFERENCES Repair_Order(Repair_Num),
+    FOREIGN KEY (Part_Num)   REFERENCES Part(Part_Num)
+);
+
+CREATE TABLE Customer (
+    Cust_ID          INTEGER      NOT NULL,
+    Cust_Fname       VARCHAR(35)  NOT NULL,
+    Cust_Lname       VARCHAR(35)  NOT NULL,
+    Cust_Phone       VARCHAR(35)  NOT NULL,
+    Cust_Email       VARCHAR(35)  NOT NULL,
+    PRIMARY KEY (Cust_ID)
+);
+
+CREATE TABLE Purchase_Order (
+    PO_Num           INTEGER   NOT NULL,
+    Cust_ID          INTEGER   NOT NULL,
+    EmpID            INTEGER   NOT NULL,
+    VIN              INTEGER   NOT NULL,
+    PRIMARY KEY (PO_Num),
+    FOREIGN KEY (Cust_ID) REFERENCES Customer(Cust_ID),
+    FOREIGN KEY (EmpID)  REFERENCES Employee(EmpID),
+    FOREIGN KEY (VIN)    REFERENCES Vehicle(VIN)
+);
